@@ -6,8 +6,6 @@ const createError = require('http-errors'); // Importa el módulo createError
 
 // Conexión con la base de datos
 mongoose
-    // Conectado de manera local
-    //.connect('mongodb://127.0.0.1:27017/libros')
     .connect('mongodb+srv://gabrielaszti21:1234@libros.joxikaj.mongodb.net/libros?retryWrites=true&w=majority&appName=libros')
     .then((x) => {
         console.log(`Conectado exitosamente a la base ${x.connections[0].name}`);
@@ -31,6 +29,11 @@ app.use(cors());
 
 app.use('/api', libroRouter);
 
+// Ruta de prueba
+app.get('/', (req, res) => {
+    res.send('Servidor funcionando correctamente');
+});
+
 // Habilitar el puerto
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
@@ -46,5 +49,5 @@ app.use((req, res, next) => {
 app.use(function (err, req, res, next) {
     console.log(err.message);
     if (!err.statusCode) err.statusCode = 500;
-    res.status(err.statusCode).send(err.message); // Corrección de la función res.statud a res.status
+    res.status(err.statusCode).send(err.message);
 });
